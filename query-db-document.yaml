@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: DB2 Query API
+  description: This API allows you to query DB2 database on z/OS.
+  version: 1.0.0
+paths:
+  /db2-query:
+    get:
+      summary: Query DB2 database
+      description: Executes a SELECT query on the DB2 database.
+      operationId: queryDB2
+      parameters:
+        - name: sql
+          in: query
+          description: The SQL query to execute.
+          required: true
+          schema:
+            type: string
+            example: "SELECT * FROM EMPLOYEES WHERE DEPARTMENT = 'HR'"
+      responses:
+        '200':
+          description: Successful query execution
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        EMP_ID:
+                          type: string
+                        EMP_NAME:
+                          type: string
+                        DEPARTMENT:
+                          type: string
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
